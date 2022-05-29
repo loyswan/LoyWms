@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace LoyWms.WebApi.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    //[Route("[controller]")]
     public class ProductController : ApiControllerBase
     {
 
