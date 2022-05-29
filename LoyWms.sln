@@ -9,7 +9,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{6AEB9131
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{540C3335-ED72-4FE2-90BD-DA99D739CCAD}"
 	ProjectSection(SolutionItems) = preProject
-		设计.md = 设计.md
+		Docs\README.md = Docs\README.md
+		Docs\设计.md = Docs\设计.md
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{4BA5CD39-4AB1-4B19-951A-A8A2DC33D0C9}"
