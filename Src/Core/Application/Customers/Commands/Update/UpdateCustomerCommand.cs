@@ -1,12 +1,14 @@
-﻿using LoyWms.Application.Common.Exceptions;
+﻿using AutoMapper;
+using LoyWms.Application.Common.Exceptions;
 using LoyWms.Application.Common.Interfaces.Repositories;
 using LoyWms.Application.Common.Wrappers;
+using LoyWms.Application.Customers.Dtos;
 using LoyWms.Domain.Entities;
 using MediatR;
 
 namespace LoyWms.Application.Customers.Commands.Update;
 
-public class UpdateCustomerCommand : IRequest<Response<Customer>>
+public class UpdateCustomerCommand : IRequest<Response<CustomerDto>>
 {
     public long Id { get; set; }
     public string Name { get; set; }
@@ -14,18 +16,20 @@ public class UpdateCustomerCommand : IRequest<Response<Customer>>
     public string? Description { get; set; }
 
 
-    public class UpdateCustomerCommandHandler : IRequestHandler<UpdateCustomerCommand, Response<Customer>>
+    public class UpdateCustomerCommandHandler : IRequestHandler<UpdateCustomerCommand, Response<CustomerDto>>
     {
         private readonly ICustomerRepositoryAsync _repository;
+        private readonly IMapper _mapper;
         public UpdateCustomerCommandHandler(
-            ICustomerRepositoryAsync repository)
+            ICustomerRepositoryAsync repository, IMapper mapper)
         {
             _repository = repository;
+            _mapper = mapper;
         }
 
-        public async Task<Response<Customer>> Handle(UpdateCustomerCommand request, CancellationToken cancellationToken)
+        public async Task<Response<CustomerDto>> Handle(UpdateCustomerCommand request, CancellationToken cancellationToken)
         {
-            var customer = _repository.GetAsQueryable(p => p.Id == request.Id).FirstOrDefault();
+            var customer = await _repository.GetAsync(c => c.Id == request.Id);
             if (customer == null)
             {
                 throw new ApiException($"Customer Not Found.");
@@ -36,7 +40,7 @@ public class UpdateCustomerCommand : IRequest<Response<Customer>>
             customer.Description = request.Description;
 
             await _repository.UpdateAsync(customer);
-            return new Response<Customer>(customer);
+            return new Response<CustomerDto>(_mapper.Map<Customer, CustomerDto>(customer));
         }
     }
 }

@@ -7,7 +7,7 @@ using MediatR;
 
 namespace LoyWms.Application.Customers.Commands.Create;
 
-public class CreateCustomerCommand : IRequest<Response<CustomerDto>>
+public class CreateCustomerCommand : IRequest<Response<Dtos.CustomerDto>>
 {
     public string Name { get; set; }
     public string NickName { get; set; }
@@ -15,7 +15,7 @@ public class CreateCustomerCommand : IRequest<Response<CustomerDto>>
 
 
 
-    public class CreateCustomerCommandHandler : IRequestHandler<CreateCustomerCommand, Response<CustomerDto>>
+    public class CreateCustomerCommandHandler : IRequestHandler<CreateCustomerCommand, Response<Dtos.CustomerDto>>
     {
         private readonly ICustomerRepositoryAsync _customerRepository;
         private readonly IMapper _mapper;
@@ -27,7 +27,7 @@ public class CreateCustomerCommand : IRequest<Response<CustomerDto>>
             _mapper = mapper;
         }
 
-        public async Task<Response<CustomerDto>> Handle(CreateCustomerCommand command, CancellationToken cancellationToken)
+        public async Task<Response<Dtos.CustomerDto>> Handle(CreateCustomerCommand command, CancellationToken cancellationToken)
         {
             var customer = new Customer()
             {
@@ -35,7 +35,7 @@ public class CreateCustomerCommand : IRequest<Response<CustomerDto>>
                 NickName = command.NickName,
                 Description = command.Description,
             };
-            var rst = _mapper.Map<CustomerDto>(await _customerRepository.CreateAsync(customer));
+            var rst = _mapper.Map<Customer, CustomerDto>(await _customerRepository.CreateAsync(customer));
             return new Response<CustomerDto>(rst);
         }
     }
