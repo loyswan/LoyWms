@@ -9,6 +9,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Employees\Commands\**" />
+    <Compile Remove="Employees\Queries\GetEmployeesWithPagination\**" />
+    <Compile Remove="Employees\Queries\GetEmployees\**" />
+    <EmbeddedResource Remove="Employees\Commands\**" />
+    <EmbeddedResource Remove="Employees\Queries\GetEmployeesWithPagination\**" />
+    <EmbeddedResource Remove="Employees\Queries\GetEmployees\**" />
+    <None Remove="Employees\Commands\**" />
+    <None Remove="Employees\Queries\GetEmployeesWithPagination\**" />
+    <None Remove="Employees\Queries\GetEmployees\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.0.1" />
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="10.0.1" />
@@ -17,6 +29,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Domain\Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Warehouses\" />
   </ItemGroup>
 
 </Project>

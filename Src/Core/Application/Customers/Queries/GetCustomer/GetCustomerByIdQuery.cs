@@ -17,12 +17,12 @@ public class GetCustomerByIdQuery
     public long Id { get; set; }
 
 }
-public class GetCustomersQueryHandler
+public class GetCustomerByIdQueryHandler
     : IRequestHandler<GetCustomerByIdQuery, Response<CustomerDto>>
 {
     private readonly ICustomerRepositoryAsync _customersRepository;
     private readonly IMapper _mapper;
-    public GetCustomersQueryHandler(
+    public GetCustomerByIdQueryHandler(
         ICustomerRepositoryAsync customersRepository,
         IMapper mapper)
     {

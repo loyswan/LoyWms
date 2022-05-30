@@ -12,6 +12,7 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
 
     public DbSet<Product> Products { get; set; }
     public DbSet<Customer> Customers { get; set; }
+    public DbSet<Employee> Employees { get; set; }
 
     public override Task<int> SaveChangesAsync(CancellationToken cancellationToken)
     {
