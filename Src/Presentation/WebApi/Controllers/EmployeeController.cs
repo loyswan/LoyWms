@@ -11,9 +11,9 @@ namespace LoyWms.WebApi.Controllers
         [HttpGet("{id}")]
         public async Task<Response<EmployeeDetailDto>> Get(long id)
         {
-            var query = new GetEmployeeDetailQuery() { Id = id };
-            return await Mediator.Send(query);
-            //return new Response<EmployeeDetailDto>() { Message = "测试" };
+            //var query = new GetEmployeeDetailQuery() { Id = id };
+            //return await Mediator.Send(query);
+            return new Response<EmployeeDetailDto>() { Message = "删除" };
         }
     }
 }

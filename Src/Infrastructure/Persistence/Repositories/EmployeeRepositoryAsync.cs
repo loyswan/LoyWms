@@ -18,7 +18,6 @@ namespace LoyWms.Infrastructure.Persistence.Repositories
             _employees = dbContext.Set<Employee>();
         }
 
-
         public async Task<Employee> GetEmployeeDetailAsync(long id)
         {
             var emp = await _employees.AsNoTracking().FirstOrDefaultAsync(e => e.Id == id);
@@ -29,19 +28,5 @@ namespace LoyWms.Infrastructure.Persistence.Repositories
             }
             return emp;
         }
-
-        //public async Task<Employee> GetManagerAsync(Employee employee)
-        //{
-        //    Employee ret = null;
-        //    if (employee == null) { return null; }
-        //    if (employee.ManagerId != null && employee.ManagerId != employee.Id)
-        //    {
-        //        var managerid = employee.ManagerId.Value;
-        //        ret = await _employees.FirstOrDefaultAsync(e=>e.Id == managerid);
-        //    }
-        //    return ret;
-        //}
-
-
     }
 }
