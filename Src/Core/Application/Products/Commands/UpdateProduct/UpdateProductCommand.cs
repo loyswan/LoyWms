@@ -2,6 +2,7 @@
 using LoyWms.Application.Common.Exceptions;
 using LoyWms.Application.Common.Interfaces.Repositories;
 using LoyWms.Application.Common.Wrappers;
+using LoyWms.Application.Products.Dtos;
 using LoyWms.Domain.Entities;
 using MediatR;
 using System;
@@ -12,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace LoyWms.Application.Products.Commands.UpdateProduct;
 
-public class UpdateProductCommand : IRequest<Response<Product>>
+public class UpdateProductCommand : IRequest<Response<ProductDto>>
 {
     public long Id { get; set; }
     //产品名称
@@ -27,16 +28,19 @@ public class UpdateProductCommand : IRequest<Response<Product>>
     public string? Description { get; set; }
 
 
-    public class UpdateProductCommandHandler : IRequestHandler<UpdateProductCommand, Response<Product>>
+    public class UpdateProductCommandHandler : IRequestHandler<UpdateProductCommand, Response<ProductDto>>
     {
         private readonly IProductRepositoryAsync _productRepository;
+        private readonly IMapper _mapper;
         public UpdateProductCommandHandler(
-            IProductRepositoryAsync productRepository)
+            IProductRepositoryAsync productRepository,
+            IMapper mapper)
         {
             _productRepository = productRepository;
+            _mapper = mapper;
         }
 
-        public async Task<Response<Product>> Handle(UpdateProductCommand request, CancellationToken cancellationToken)
+        public async Task<Response<ProductDto>> Handle(UpdateProductCommand request, CancellationToken cancellationToken)
         {
             var product = _productRepository.GetAsQueryable(p => p.Id == request.Id).FirstOrDefault();
             if (product == null)
@@ -51,7 +55,7 @@ public class UpdateProductCommand : IRequest<Response<Product>>
             product.Description = request.Description;
 
             await _productRepository.UpdateAsync(product);
-            return new Response<Product>(product);
+            return new Response<ProductDto>(_mapper.Map<Product, ProductDto>(product));
         }
     }
 }

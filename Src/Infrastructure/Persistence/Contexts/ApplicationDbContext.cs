@@ -4,13 +4,14 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LoyWms.Infrastructure.Persistence.Contexts;
 
-public class ApplicationDbContext :DbContext, IApplicationDbContext
+public class ApplicationDbContext : DbContext, IApplicationDbContext
 {
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
     {
     }
 
     public DbSet<Product> Products { get; set; }
+    public DbSet<Customer> Customers { get; set; }
 
     public override Task<int> SaveChangesAsync(CancellationToken cancellationToken)
     {
@@ -36,10 +37,10 @@ public class ApplicationDbContext :DbContext, IApplicationDbContext
         foreach (var property in builder.Model.GetEntityTypes()
             .SelectMany(t => t.GetProperties())
             .Where(p => p.ClrType == typeof(decimal) || p.ClrType == typeof(decimal?)))
-        { 
+        {
             property.SetColumnType("decimal(18,6)");
         }
-        
+
         base.OnModelCreating(builder);
     }
 }
