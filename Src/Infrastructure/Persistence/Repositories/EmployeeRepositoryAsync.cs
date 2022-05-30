@@ -18,16 +18,29 @@ namespace LoyWms.Infrastructure.Persistence.Repositories
             _employees = dbContext.Set<Employee>();
         }
 
-        public async Task<Employee> GetManagerAsync(Employee employee)
+
+        public async Task<Employee> GetEmployeeDetailAsync(long id)
         {
-            if (employee == null) { return null; }
-            if (employee.ManagerId != null && employee.ManagerId != employee.Id)
+            var emp = await _employees.AsNoTracking().FirstOrDefaultAsync(e => e.Id == id);
+            if (emp == null) return null;
+            if (emp.ManagerId != null && emp.ManagerId != emp.Id)
             {
-                var managerid = employee.ManagerId.Value;
-                employee.Manager = await _employees.FirstOrDefaultAsync(e=>e.Id == managerid);
+                emp.Manager = await _employees.AsNoTracking().FirstOrDefaultAsync(e => e.Id == emp.ManagerId.Value);
             }
-            return employee;
+            return emp;
         }
+
+        //public async Task<Employee> GetManagerAsync(Employee employee)
+        //{
+        //    Employee ret = null;
+        //    if (employee == null) { return null; }
+        //    if (employee.ManagerId != null && employee.ManagerId != employee.Id)
+        //    {
+        //        var managerid = employee.ManagerId.Value;
+        //        ret = await _employees.FirstOrDefaultAsync(e=>e.Id == managerid);
+        //    }
+        //    return ret;
+        //}
 
 
     }
